@@ -7,7 +7,7 @@ categories: SystemVerilog
 
 This is a study notebook for learning
 
-```sv
+```verilog
 module test;
 endmodule
 ```
