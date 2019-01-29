@@ -7,10 +7,8 @@ categories: SystemVerilog
 
 This is a study notebook for learning
 
-```SystemVerilog
-
+```sv
 module test;
 endmodule
-
 ```
  
