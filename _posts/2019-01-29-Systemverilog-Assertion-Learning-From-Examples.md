@@ -11,6 +11,12 @@ This is a study notebook for learning SystemVerilog Assertion. Most of informati
 
 > Immediate assertions are simple non-temporal domain assertions that are executed like statements in a procedural block. Interpret them as an expression in the condition of a procedural ‘if’ statement.
 
+```ruby
+require 'redcarpet'
+markdown = Redcarpet.new("Hello World!")
+puts markdown.to_html
+```
+
 {% highlight verilog %}
 module test_immediate
 (
