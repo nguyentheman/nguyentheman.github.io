@@ -11,23 +11,24 @@ This is a study notebook for learning SystemVerilog Assertion. Most of informati
 
 > Immediate assertions are simple non-temporal domain assertions that are executed like statements in a procedural block. Interpret them as an expression in the condition of a procedural ‘if’ statement.
 
-```sv
-module test_immediate \
-(	clk,\
-	a,b,c,d\
-);\
-	input clk;\
-	input a,b,c,d;\
-\
-	always @(posedge clk)\
-	begin\
-		if(a) begin\
-			@(posedge d);\
-			bORc : assert (b||c) $display("\n",$stime,,,"%m assert passed\n");\
-					else //This 'else' is for the 'assert'\
-						$fatal("\n",$stime,,,"%m assert failed\n");\
-		end\
-	end\
-endmodule\
+```SystemVerilog
+module test_immediate
+(	clk,
+	a,b,c,d
+);
+	input clk;
+	input a,b,c,d;
+
+	always @(posedge clk)
+	begin
+		if(a) begin
+			@(posedge d);
+			bORc : assert (b||c) 
+						$display("\n",$stime,,,"%m assert passed\n");
+					else //This 'else' is for the 'assert'
+						$fatal("\n",$stime,,,"%m assert failed\n");
+		end
+	end
+endmodule
 ```
  
