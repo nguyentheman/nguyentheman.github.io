@@ -7,8 +7,9 @@ categories: Verification
 # 1. Issue
 During working on a Double Data Rate design, I missed a serious bug which can be a cause of tape-out failed. My Design Under Test (DUT) captured data on both positive and negative clock edge (this is the reason why I call it a Double Data Rate Design). 
 
-![](/assets/20190216/20190216_1.jpg)
-*Figure 1.1. Double Data Rate*
+{% include image.html
+            img="/assets/20190216/20190216_1.jpg"
+            title="Figure 1.1. Double Data Rate" %}
 
 To capture data, designer want to use a double-flops structure as below figure. In this structure, the data at rising edge will be captured by positive edge flip-flop RF0,RF1 ; data at falling edge will be capture by negative edge flip-flop FF0, FF1
 
