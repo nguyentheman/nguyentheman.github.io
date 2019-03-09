@@ -4,20 +4,22 @@ title:  "Note for Double Data Rate Design Verification"
 date:   2019-01-29
 categories: Verification
 ---
-
-
 # Issue
-Double Data Rate design request data must to be captured on both positive and negative edge of clock. You can refer to ["this article](http://www.ni.com/white-paper/7284/en/) for detail concept of Double Data Rate
+During working on a Double Data Rate design, I missed a serious bug which can be a cause of tape-out failed. My Design Under Test (DUT) captured data on both positive and negative clock edge (this is the reason why I call it a Double Data Rate Design). 
 
 ![Figure 1. Double Data Rate](/assets/20190216/20190216_1.jpg)
 
-In common design solution, designer will use a double flops structure, one active on positive clock and another one active on negative clock as figure below:
+To capture data, designer want to use a double-flops structure as below figure. In this structure, the data at rising edge will be captured by positive edge flip-flop RF0,RF1 ; data at falling edge will be capture by negative edge flip-flop FF0, FF1
 
 ![Figure 2a. Correct Design Idea](/assets/20190216/20190216_2a.jpg)
 
-However, designer get wrong implementation, the FF1 flipflop actives at positive clock edge instead of negative clock edge. Unfortunately, my testbench can not detect this bug on RTL verification. Luckily, the problem is detected on Timing Back Annotation test-phase, when FF1 get a setup violation error. I call this is a lucky because this circuit is applied to 32 flip-flops but there are only 5 flip-flops get timing violation error.
-
+Unfortunately, designer get wrong implementation. Instead of using negative edge flip-flop for FF1, he used positive edge flip-flop. This bug has not detected during RTL Verification phase, all test-cases still "get pass report". I just detect it when doing timing check, when STA engineer report that It is very hard to close-timing on this path. Thank god, my DUT is a very high-speed design, unless STA process can be done more easier.
+ 
 ![Figure 2b. Wrong Design Implement](/assets/20190216/20190216_2b.jpg)
+
+The reason why the STA can not done.
+
+![Figure 2c. Issue on STA](/assets/20190216/20190216_2c.jpg)
 
 # Solution
 
@@ -33,7 +35,7 @@ initial begin
 end
 {% endhighlight %} 
 
-The waveform on simulation will be like this:
+The waveform on simulation will be like:
 
 ![Figure 3a. Missed-bug test-bench](/assets/20190216/20190216_3a.jpg)
 
@@ -65,7 +67,7 @@ By this way, ff1 will capture valid data at next clock cycle. This lead to a log
 
 ![Figure 3a. Modified test-bench](/assets/20190216/20190216_3b.jpg)
  
-# Solution Limitation
+# Open Discussion
 
 The upper solution is not a completed solution, because it require modify RTL code and the verifier must have good understand about RTL design. These requirements cannot satisfy for all project situation. The better solution is create a Coding Rule which request Designer add a "half-cycle-delay" at first stage (FF0 and RF0) when using upper solution.
 
