@@ -7,23 +7,22 @@ categories: Verification
 # Issue
 During working on a Double Data Rate design, I missed a serious bug which can be a cause of tape-out failed. My Design Under Test (DUT) captured data on both positive and negative clock edge (this is the reason why I call it a Double Data Rate Design). 
 
-![Figure 1. Double Data Rate](/assets/20190216/20190216_1.jpg)
+![](/assets/20190216/20190216_1.jpg)Figure 1. Double Data Rate
 
 To capture data, designer want to use a double-flops structure as below figure. In this structure, the data at rising edge will be captured by positive edge flip-flop RF0,RF1 ; data at falling edge will be capture by negative edge flip-flop FF0, FF1
 
-![Figure 2a. Correct Design Idea](/assets/20190216/20190216_2a.jpg)
+![](/assets/20190216/20190216_2a.jpg)Figure 2a. Correct Design Idea
 
 Unfortunately, designer get wrong implementation. Instead of using negative edge flip-flop for FF1, he used positive edge flip-flop. This bug has not detected during RTL Verification phase, all test-cases still "get pass report". I just detect it when doing timing check, when STA engineer report that It is very hard to close-timing on this path. Thank god, my DUT is a very high-speed design, unless STA process can be done more easier.
  
-![Figure 2b. Wrong Design Implement](/assets/20190216/20190216_2b.jpg)
+![](/assets/20190216/20190216_2b.jpg)Figure 2b. Wrong Design Implement
 
 The reason why the STA can not done.
 
-![Figure 2c. Issue on STA](/assets/20190216/20190216_2c.jpg)
+![](/assets/20190216/20190216_2c.jpg)Figure 2c. Issue on STA
 
 # Solution
-
-Okay, let's analyze why my test-bench can not detect this problem on RTL simulation. Firstly, I crated a traditional test-bench like this
+Okay, let's trace back to the reason why my test-bench do not detects this bug. Traditionally, I control Din for each rising clock cycle. A "miracle delay" - #1 is added to get better looking on waveform. 
 
 {% highlight verilog %}
 initial begin
@@ -35,13 +34,17 @@ initial begin
 end
 {% endhighlight %} 
 
-The waveform on simulation will be like:
+Assume that, we asserts Din at t0, then expected f_dout can be captured after 2.5 cycle (at t5). In case the design is implemented correctly, the output waveform should be: 
 
-![Figure 3a. Missed-bug test-bench](/assets/20190216/20190216_3a.jpg)
+![](/assets/20190216/20190216_3a.jpg) Figure 3a. Expected Waveform
 
-You can see here, ff0.Q get expected value before t3. So that, despite activation edge of ff1 is positive or negative edge,  ff1.Q is always get correct value. This is reason why I can not detect this bug in RTL verification.
+Let's see the waveform at the bug case. Designer implements his circuit as figure 2b. 
 
-For considering this issue quickly, I added half_clock_cycle sequence delay to ff0 and rf0 inside RTL code
+![](/assets/20190216/20190216_3b.jpg) Figure 3b. Bug-case Waveform
+
+You can see, if our test-bench captures f_dout at t5, we always get correct value, although the verification is working on the wrong RTL. The important question here, **how to find out this bug on RTL simulation?**
+
+I do not know the solution for a general case. But, in my DUT, the first-stage of double-flops structure (RF0, RF1 flip-flop in figure 2a) is a behavior model of a analog cell, then I can modified it to add a half-clock-cycle delay as below code:
 
 {% highlight verilog %}
 //RF0
@@ -63,11 +66,11 @@ always @(negedge clk, negedge rst_n) begin
 end
 {% endhighlight %} 
  
-By this way, ff1 will capture valid data at next clock cycle. This lead to a logic synchronization failed, then the bug can be detected
+By this way, we will get wrong value at t5. Then the bug can be found.
 
-![Figure 3a. Modified test-bench](/assets/20190216/20190216_3b.jpg)
+![](/assets/20190216/20190216_3c.jpg) Figure 3c. Bug-case were found.
  
 # Open Discussion
 
-The upper solution is not a completed solution, because it require modify RTL code and the verifier must have good understand about RTL design. These requirements cannot satisfy for all project situation. The better solution is create a Coding Rule which request Designer add a "half-cycle-delay" at first stage (FF0 and RF0) when using upper solution.
+As I mentioned from previous session, my idea is not a general solution. It just be applied to "white-box" check where the tester has depth understand about the design concept. Please feel free to ask me if you have a better solution.
 
