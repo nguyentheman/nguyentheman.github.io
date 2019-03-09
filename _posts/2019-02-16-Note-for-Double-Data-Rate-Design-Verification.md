@@ -9,7 +9,7 @@ During working on a Double Data Rate design, I missed a serious bug which can be
 
 {% include image.html
    img="/assets/20190216/20190216_1.jpg"
-   title="Figure 1. Double Data Rate" %}
+   caption="Figure 1. Double Data Rate" %}
 
 To capture data, designer want to use a double-flops structure as below figure. In this structure, the data at rising edge will be captured by positive edge flip-flop RF0,RF1 ; data at falling edge will be capture by negative edge flip-flop FF0, FF1
 
