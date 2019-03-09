@@ -3,4 +3,4 @@
 
 @import "{{ site.theme }}";
 
-img + em { }
+img + em {display: block; text-align: center;}
