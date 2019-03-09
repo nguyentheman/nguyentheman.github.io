@@ -4,7 +4,7 @@ title:  "Note for Double Data Rate Design Verification"
 date:   2019-02-16
 categories: Verification
 ---
-# Issue
+# 1. Issue
 During working on a Double Data Rate design, I missed a serious bug which can be a cause of tape-out failed. My Design Under Test (DUT) captured data on both positive and negative clock edge (this is the reason why I call it a Double Data Rate Design). 
 
 ![](/assets/20190216/20190216_1.jpg)
@@ -26,7 +26,7 @@ The reason why the STA can not done.
 
 Figure 2c. Issue on STA
 
-# Solution
+# 2. Solution
 Okay, let's trace back to the reason why my test-bench do not detects this bug. Traditionally, I control Din for each rising clock cycle. A "miracle delay" - #1 is added to get better looking on waveform. 
 
 {% highlight verilog %}
@@ -78,7 +78,7 @@ By this way, we will get wrong value at t5. Then the bug can be found.
 ![](/assets/20190216/20190216_3c.jpg)
 *Figure 3c. Bug-case were found.*
  
-# Open Discussion
+# 3. Open Discussion
 
 As I mentioned from previous session, my idea is not a general solution. It just be applied to "white-box" check where the tester has depth understand about the design concept. Please feel free to ask me if you have a better solution.
 
