@@ -5,34 +5,35 @@ date      : 2019-02-16
 categories: Verification
 author    : Nguyen The Man
 ---
-# 1. Issue
-During working on a Double Data Rate design, I missed a serious bug which can be a cause of tape-out failed. My Design Under Test (DUT) captured data on both positive and negative clock edge (this is the reason why I call it a Double Data Rate Design). 
+# 1. Issue.
 
+Double Data Rate design means the design which captures data on both clock edge: positive edge and negative edge. 
 {% include image.html
   file="/assets/20190216/20190216_1.jpg" 
   alt=""
   caption="Figure 1.1. Double Data Rate." %}
 
-To capture data, designer want to use a double-flops structure as below figure. In this structure, the data at rising edge will be captured by positive edge flip-flop RF0,RF1 ; data at falling edge will be capture by negative edge flip-flop FF0, FF1
+One of solutions to capture this kind of data transfer is using a double-flops structure as below figure. In this structure, the data at rising edge will be captured by positive edge flip-flop RF0,RF1 ; data at falling edge will be capture by negative edge flip-flop FF0, FF1
 
 {% include image.html
   file="/assets/20190216/20190216_2a.jpg" 
   alt=""
   caption="Figure 1.2. Correct Design Idea" %}
 
-Unfortunately, designer get wrong implementation. Instead of using negative edge flip-flop for FF1, he used positive edge flip-flop. This bug has not detected during RTL Verification phase, all test-cases still "get pass report". I just detect it when doing timing check, when STA engineer report that It is very hard to close-timing on this path. Thank god, my DUT is a very high-speed design, unless STA process can be done more easier.
+When doing verification for this design, My test-bench missed a serious bug which can make the design failed on silicon. The figure below describes design issue. Instead of using negative edge flip-flop for FF1, he used positive edge flip-flop. This bug has not detected during RTL Verification phase, all test-cases still "get pass report". I just detect it when doing timing check, when STA engineer report that It is very hard to close-timing on this path. Thank god, my DUT is a very high-speed design, unless STA process can be done more easier. It means I will never detected this kind bug 
 
 {% include image.html
   file="/assets/20190216/20190216_2b.jpg" 
   alt=""
   caption="Figure 1.3. Wrong Design Implement" %}
 
-The reason why the STA can not done.
+The reason why the STA can not done. As you can see, the setup time in this case very critical, then It can be the cause of setup-time violation when doing timing-backanotation check. 
 
 {% include image.html
   file="/assets/20190216/20190216_2c.jpg" 
   alt=""
   caption="Figure 1.4. Issue on STA" %}
+
 
 # 2. Solution
 Okay, let's trace back to the reason why my test-bench do not detects this bug. Traditionally, I control Din for each rising clock cycle. A "miracle delay" - #1 is added to get better looking on waveform. 
