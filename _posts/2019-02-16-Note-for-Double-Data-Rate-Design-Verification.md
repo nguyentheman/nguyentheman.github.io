@@ -10,29 +10,29 @@ author    : Nguyen The Man
 Double Data Rate design means the design which captures data on both clock edge: positive edge and negative edge. 
 {% include image.html
   file="/assets/20190216/20190216_1.jpg" 
-  alt=""
-  caption="Figure 1.1. Double Data Rate." %}
+  figure="Figure 1.1."
+  caption="Double Data Rate." %}
 
 One of solutions to capture this kind of data transfer is using a double-flops structure as below figure. In this structure, the data at rising edge will be captured by positive edge flip-flop RF0,RF1 ; data at falling edge will be capture by negative edge flip-flop FF0, FF1
 
 {% include image.html
   file="/assets/20190216/20190216_2a.jpg" 
-  alt=""
-  caption="Figure 1.2. Correct Design Idea" %}
+  figure="Figure 1.2."
+  caption="Correct Design Idea." %}
 
-When doing verification for this design, My test-bench missed a serious bug which can make the design failed on silicon. The figure below describes design issue. Instead of using negative edge flip-flop for FF1, he used positive edge flip-flop. This bug has not detected during RTL Verification phase, all test-cases still "get pass report". I just detect it when doing timing check, when STA engineer report that It is very hard to close-timing on this path. Thank god, my DUT is a very high-speed design, unless STA process can be done more easier. It means I will never detected this kind bug 
+When doing verification for this design, My test-bench missed a serious bug which can make the design failed on silicon. The figure below describes design issue. Instead of using negative edge flip-flop for FF1, he used positive edge flip-flop. This bug has not detected during RTL Verification phase, all test-cases still "get pass report". 
 
 {% include image.html
   file="/assets/20190216/20190216_2b.jpg" 
-  alt=""
-  caption="Figure 1.3. Wrong Design Implement" %}
+  figure="Figure 1.3."
+  caption="Wrong Design Implement." %}
 
-The reason why the STA can not done. As you can see, the setup time in this case very critical, then It can be the cause of setup-time violation when doing timing-backanotation check. 
+Problem just happens when doing timing-backanotation check. As you can see, the setup time in wrong-design is very critical. So that I got an unexpected setup time violation message.  
 
 {% include image.html
   file="/assets/20190216/20190216_2c.jpg" 
-  alt=""
-  caption="Figure 1.4. Issue on STA" %}
+  figure="Figure 1.4."
+  caption="Issue on timing-check." %}
 
 
 # 2. Solution
@@ -52,15 +52,15 @@ Assume that, we asserts Din at t0, then expected f_dout can be captured after 2.
 
 {% include image.html
   file="/assets/20190216/20190216_3a.jpg" 
-  alt=""
-  caption="Figure 2.1. Expected Waveform" %}
+  figure="Figure 2.1."
+  caption="Expected Waveform" %}
 
 Let's see the waveform at the bug case. Designer implements his circuit as figure 1.3. 
 
 {% include image.html
   file="/assets/20190216/20190216_3b.jpg" 
-  alt=""
-  caption="Figure 2.2. Bug-case Waveform" %}
+  figure="Figure 2.2."
+  caption="Bug-case Waveform." %}
 
 You can see, if our test-bench captures f_dout at t5, we always get correct value, although the verification is working on the wrong RTL. The important question here, **how to find out this bug on RTL simulation?**
 
@@ -90,8 +90,8 @@ By this way, we will get wrong value at t5. Then the bug can be found.
 
 {% include image.html
   file="/assets/20190216/20190216_3c.jpg" 
-  alt=""
-  caption="Figure 2.3. Bug-case were found." %}
+  figure="Figure 2.3."
+  caption="Bug-case were found." %}
  
 # 3. Open Discussion
 
