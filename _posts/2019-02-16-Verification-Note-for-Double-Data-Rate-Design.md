@@ -1,6 +1,6 @@
 ---
 layout    : post
-title     :  "Note for Double Data Rate Design Verification"
+title     :  "Verification Note for Double Data Rate Design"
 date      : 2019-02-16
 categories: Verification
 author    : Nguyen The Man
