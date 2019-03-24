@@ -27,7 +27,7 @@ When doing verification for this design, My test-bench missed a serious bug whic
   figure="Figure 1.3."
   caption="Wrong Design Implement." %}
 
-Problem just happens when doing timing-backanotation check. As you can see, the setup time in wrong-design is very critical. So that I got an unexpected setup time violation message.  
+Problem just detected when doing timing-backanotation check. As you can see, the setup-time of wrong-design is very critical. So it is easy to get an unexpected setup-time violation message during simulation.
 
 {% include image.html
   file="/assets/20190216/20190216_2c.jpg" 
