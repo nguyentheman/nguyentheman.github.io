@@ -35,7 +35,6 @@ plugins:
   - jekyll-feed
 
 permalink: /:categories/:title/
-baseurl: https://nguyentheman.github.io
 
 
 # Exclude from processing.
