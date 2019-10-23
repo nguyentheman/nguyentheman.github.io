@@ -17,8 +17,8 @@ title: Nguyen The Man 's Blogs
 email: nguyentheman90@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   Nothing.
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://nguyentheman.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+baseurl: "http://nguyentheman.github.io/" # the subpath of your site, e.g. /blog
+url: "http://nguyentheman.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: N/A
 github_username : N/A
 
