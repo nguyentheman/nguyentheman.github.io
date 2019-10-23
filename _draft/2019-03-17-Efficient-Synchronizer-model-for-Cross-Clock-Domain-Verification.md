@@ -2,7 +2,7 @@
 layout: post
 title:  "Efficient Synchronizer model for Cross-Clock-Domain design verification"
 date:   2019-03-17
-categories: Design for Verification
+categories: Design
 author    : Nguyen The Man
 ---
 
