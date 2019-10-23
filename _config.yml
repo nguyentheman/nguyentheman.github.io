@@ -18,7 +18,7 @@ email: nguyentheman90@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   Nothing.
 baseurl: "/vlsi" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://nguyentheman.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: N/A
 github_username : N/A
 
