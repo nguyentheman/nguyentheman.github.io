@@ -2,7 +2,8 @@
 layout: post
 title:  "Clock Domain Crossing (CDC) và Reset Domain Crossing (RDC)"
 date:   2019-01-29
-categories: Concept
+categories: Concepts
+author    : Hedwig
 ---
 
 # 1. Tổng quan

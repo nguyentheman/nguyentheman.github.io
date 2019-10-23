@@ -35,6 +35,8 @@ plugins:
   - jekyll-feed
 
 permalink: /:categories/:title/
+baseurl: https://nguyentheman.github.io
+
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list

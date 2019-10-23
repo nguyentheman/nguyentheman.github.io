@@ -27,21 +27,25 @@ layout: default
     {%- if site.disqus.shortname -%}
         {%- include disqus_comments.html -%}
     {%- endif -%}
-  
-    <p class="post-meta" align="right">
-        <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
-            {%- assign date_format = site.minima.date_format | default: "%d/%m/%Y" -%}
-            {{ page.date | date: date_format }}
-        </time></br>
-        
-        {%- if page.author -%}
-            <span itemprop="author" itemscope itemtype="http://schema.org/Person">
-                <span class="p-author h-card" itemprop="name"> {{ page.author | escape }}
+
+    <footer>
+        <p align="right">    
+            <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
+                {%- assign date_format = site.minima.date_format | default: "%d/%m/%Y" -%}
+                Post date: {{ page.date | date: date_format }}
+            </time></br>
+
+            {%- if page.author -%}
+                <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+                    <span class="p-author h-card" itemprop="name">Post by: {{ page.author | escape }}
+                    </span>
                 </span>
-            </span>
-        {%- endif -%}
-    </p>
-    
+            {%- endif -%}
+        </p>
+    </footer>  
+
+    {% include comments.html %}
+
   <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
   
 </article>
