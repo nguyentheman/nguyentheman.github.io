@@ -4,4 +4,5 @@ title:  "Kiểm tra hoạt động của CDC Synchronizer ở mức mô phỏng 
 date:   2019-03-17
 categories: Verification
 author    : Hedwig
+comments: true
 ---
