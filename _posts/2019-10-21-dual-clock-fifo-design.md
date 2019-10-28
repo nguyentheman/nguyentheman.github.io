@@ -4,6 +4,7 @@ title:  "Thiết kế Dual-Clock FIFO"
 date:   2019-01-29
 categories: Design
 author    : Hedwig
+comments: true
 ---
 
 # 1. Mô tả
